@@ -1,22 +1,41 @@
 ﻿using ApiCatalogo.Models;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
+
+[Table("produtos")]
 public class Produto
 {
     public Produto()
     {
-        Id = Guid.NewGuid();
         DataCadastro = DateTime.UtcNow;
     }
-    public Guid Id { get; set; }
+
+    [Key]
+    public int Id { get; set; }
+
+    [Required]
+    [MaxLength(80)]
+    [MinLength(3)]
     public string Nome { get; set; } = String.Empty;
+
+    [Required]
+    [MaxLength(1024)]
+    [MinLength(3)]
     public string Descricao { get; set; } = String.Empty;
-    public string ImagemUrl { get; set; } = String.Empty;
+
+    [Required]
+    [Column(TypeName = "decimal (10,2)")]
     public decimal Preco { get; set; }
-    public decimal Estoque { get; set; }
+
+    [Required]
+    [MaxLength(1024)]
+    public string ImagemUrl { get; set; } = String.Empty;
+
+    public int Estoque { get; set; }
     public DateTime DataCadastro { get; set; }
 
-    public Guid CategoriaId{ get; set; }
+    public int CategoriaId{ get; set; }
 
     public Categoria? Categoria { get; set; }
 }
