@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ApiCatalogo.Models;
+using System.ComponentModel.DataAnnotations;
 
 public class Produto
 {
@@ -14,4 +15,8 @@ public class Produto
     public decimal Preco { get; set; }
     public decimal Estoque { get; set; }
     public DateTime DataCadastro { get; set; }
+
+    public Guid CategoriaId{ get; set; }
+
+    public Categoria? Categoria { get; set; }
 }
