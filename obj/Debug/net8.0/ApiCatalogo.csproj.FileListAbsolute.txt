@@ -30,3 +30,4 @@ D:\Documentos\Projetos\Macoratti\ApiCatalogo\ApiCatalogo\obj\Debug\net8.0\refint
 D:\Documentos\Projetos\Macoratti\ApiCatalogo\ApiCatalogo\obj\Debug\net8.0\ApiCatalogo.pdb
 D:\Documentos\Projetos\Macoratti\ApiCatalogo\ApiCatalogo\obj\Debug\net8.0\ApiCatalogo.genruntimeconfig.cache
 D:\Documentos\Projetos\Macoratti\ApiCatalogo\ApiCatalogo\obj\Debug\net8.0\ref\ApiCatalogo.dll
+D:\Documentos\Projetos\Macoratti\ApiCatalogo\ApiCatalogo\obj\Debug\net8.0\ApiCatalogo.sourcelink.json
