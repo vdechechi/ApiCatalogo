@@ -15,6 +15,19 @@ namespace ApiCatalogo.Controllers
             _context = context;
         }
 
+        [HttpGet]
+        public ActionResult<IEnumerable<Produto>> Get()
+        {
+            var produtos = _context.Produtos.ToList();
+
+            if(produtos == null)
+            {
+                return NotFound("Lista de produtos vazia");
+            }
+
+            return produtos; 
+        }
+
 
 
 
