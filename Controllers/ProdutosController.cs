@@ -28,6 +28,20 @@ namespace ApiCatalogo.Controllers
             return produtos; 
         }
 
+        [HttpGet]
+        [Route("{id:int}")]
+        public ActionResult<Produto> GetById([FromRoute] int id)
+        {
+            var produto = _context.Produtos.FirstOrDefault(x => x.Id == id);
+
+            if (produto == null)
+            {
+                return NotFound("Produto não encontrado");
+            }
+
+            return produto;
+        }
+
 
 
 
