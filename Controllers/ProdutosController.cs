@@ -18,7 +18,7 @@ namespace ApiCatalogo.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Produto>> Get()
+        public ActionResult<IEnumerable<Produto>> GetProdutos()
         {
             var produtos = _context.Produtos.ToList();
 
@@ -31,8 +31,8 @@ namespace ApiCatalogo.Controllers
         }
 
         [HttpGet]
-        [Route("{id:int}", Name = "GetById")]
-        public ActionResult<Produto> GetById([FromRoute] int id)
+        [Route("{id:int}", Name = "GetProdutoById")]
+        public ActionResult<Produto> GetProdutoById([FromRoute] int id)
         {
             var produto = _context.Produtos.FirstOrDefault(x => x.Id == id);
 
@@ -53,7 +53,7 @@ namespace ApiCatalogo.Controllers
 
             _context.SaveChanges();
 
-            return new CreatedAtRouteResult("GetById",
+            return new CreatedAtRouteResult("GetProdutoById",
                 new { id = produto.Id }, produto);
         }
 
