@@ -21,7 +21,7 @@ namespace ApiCatalogo.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Categoria>> GetCategorias()
         {
-            var categorias = _context.Categorias.ToList();
+            var categorias = _context.Categorias.AsNoTracking().ToList();
 
             if (!categorias.Any())
             {
@@ -35,7 +35,7 @@ namespace ApiCatalogo.Controllers
         [Route("produtos")]
         public ActionResult<IEnumerable<Categoria>> GetCategoriasProdutos()
         {
-            var categorias = _context.Categorias.Include(p=> p.Produtos).ToList();
+            var categorias = _context.Categorias.AsNoTracking().Include(p=> p.Produtos).ToList();
 
             if (!categorias.Any())
             {

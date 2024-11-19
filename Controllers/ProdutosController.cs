@@ -20,7 +20,7 @@ namespace ApiCatalogo.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Produto>> GetProdutos()
         {
-            var produtos = _context.Produtos.ToList();
+            var produtos = _context.Produtos.AsNoTracking().ToList();
 
             if(produtos == null)
             {
@@ -34,7 +34,7 @@ namespace ApiCatalogo.Controllers
         [Route("{id:int}", Name = "GetProdutoById")]
         public ActionResult<Produto> GetProdutoById([FromRoute] int id)
         {
-            var produto = _context.Produtos.FirstOrDefault(x => x.Id == id);
+            var produto = _context.Produtos.AsNoTracking().FirstOrDefault(x => x.Id == id);
 
             if (produto == null)
             {
