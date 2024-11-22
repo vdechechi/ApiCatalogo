@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ApiCatalogo.Models;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ApiCatalogo.Models
@@ -8,21 +10,20 @@ namespace ApiCatalogo.Models
     {
         public Categoria()
         {
-            Produtos = new List<Produto>(); // Usando List em vez de Collection
+            Produtos = new List<Produto>();
         }
 
         [Key]
         public int Id { get; set; }
 
-        [Required]
-        [MaxLength(80)]
-        [MinLength(3)]
-        public string Nome { get; set; } = String.Empty; // Sem nulabilidade, pois tem valor padrão
+        [Required(ErrorMessage = "O nome é obrigatório")]
+        [StringLength(80, MinimumLength = 3, ErrorMessage = "O nome deve ter entre 3 e 80 caracteres")]
+        public string Nome { get; set; } = string.Empty;
 
-        [Required]
-        [MaxLength(1024)]
-        public string ImagemUrl { get; set; } = String.Empty;
-        public ICollection<Produto>? Produtos { get; set; } // Sem nulabilidade
+        [Required(ErrorMessage = "A URL da imagem é obrigatória")]
+        [MaxLength(1024, ErrorMessage = "A URL da imagem deve ter no máximo 1024 caracteres")]
+        public string ImagemUrl { get; set; } = string.Empty;
+
+        public ICollection<Produto>? Produtos { get; set; }
     }
 }
-        

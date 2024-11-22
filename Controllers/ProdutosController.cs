@@ -1,4 +1,7 @@
 ﻿using ApiCatalogo.Context;
+using ApiCatalogo.Models;
+using ApiCatalogo.Repositorys.Produtos;
+using APICatalogo.Controllers;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,88 +13,79 @@ namespace ApiCatalogo.Controllers
     [Route("api/[controller]")]
     public class ProdutosController : ControllerBase
     {
-
-        private readonly AppDbContext _context;
-        public ProdutosController(AppDbContext context)
+        private readonly ILogger<ProdutosController> _logger;
+        private readonly IProdutosRepository _repostitory;
+        public ProdutosController(IProdutosRepository repostitory, ILogger<ProdutosController> logger)
         {
-            _context = context;
+            _logger = logger;
+            _repostitory = repostitory;
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Produto>> GetProdutos()
+        public IActionResult GetProdutos()
         {
-            var produtos = _context.Produtos.AsNoTracking().ToList();
+            var produtos = _repostitory.GetProdutos();
 
             if(produtos == null)
             {
                 return NotFound("Lista de produtos vazia");
             }
 
-            return produtos; 
+            return Ok(produtos); 
         }
 
         [HttpGet]
         [Route("{id:int}", Name = "GetProdutoById")]
-        public ActionResult<Produto> GetProdutoById([FromRoute] int id)
+            public IActionResult GetProdutoById([FromRoute] int id)
         {
-            var produto = _context.Produtos.AsNoTracking().FirstOrDefault(x => x.Id == id);
+            var produto = _repostitory.GetProduto(id);
 
             if (produto == null)
             {
                 return NotFound("Produto não encontrado");
             }
 
-            return produto;
+            return Ok(produto);
         }
 
         [HttpPost]
-        public ActionResult<Produto> Post([FromBody] Produto produto)
+        public IActionResult Post([FromBody] Produto produto)
         {
-            if(produto == null) return BadRequest();   
+            if (produto == null) return BadRequest();
 
-            _context.Produtos.Add(produto);
-
-            _context.SaveChanges();
+            var produtoCriado = _repostitory.Create(produto);
 
             return new CreatedAtRouteResult("GetProdutoById",
-                new { id = produto.Id }, produto);
+                new { id = produtoCriado.Id }, produtoCriado);
         }
 
         [HttpPut]
         [Route("{id:int}")]
-        public ActionResult<Produto> Put([FromBody] Produto produto, [FromRoute] int id)
+        public IActionResult Put([FromBody] Produto produto, [FromRoute] int id)
         {
-            if (produto == null) { return NotFound(); }
-            else
+            if (!ModelState.IsValid)
             {
-                if (produto.Id != id)
-                {
-                    return BadRequest("Produto nao encontrado");
-                }
-
-                _context.Entry(produto).State = EntityState.Modified;
-                _context.SaveChanges();
-
-                return Ok(produto);
+                return BadRequest();
             }
+            if (produto.Id != id) {
+                
+                return BadRequest();
+            }
+
+            var ProdutoAtualizado = _repostitory.Update(produto);
+
+            return Ok(ProdutoAtualizado);
+           
         }
 
         [HttpDelete]
         [Route("{id:int}")]
-        public ActionResult Delete(int id)
-        {
-            var produto = _context.Produtos.FirstOrDefault(x => x.Id == id);
+        public IActionResult Delete(int id)
+        { 
 
-            if (produto == null)
-            {
-                return NotFound("Produto não encontrado");
-            }
+            var produtoDeleteado = _repostitory.Delete(id); 
 
-            _context.Produtos.Remove(produto);
-
-            _context.SaveChanges();
-
-            return Ok("Produto Deletado com sucesso");
+            return Ok($"Produto com id = {id} Deletado com sucesso");
 
 
         }
