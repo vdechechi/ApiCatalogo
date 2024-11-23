@@ -2,7 +2,9 @@ using ApiCatalogo.Context;
 using ApiCatalogo.Extensions;
 using ApiCatalogo.Filters;
 using ApiCatalogo.Repositorys.Categorias;
+using ApiCatalogo.Repositorys.Generico;
 using ApiCatalogo.Repositorys.Produtos;
+using ApiCatalogo.Repositorys.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
@@ -33,8 +35,9 @@ builder.Services.AddControllers(options =>
 
 builder.Services.AddScoped<ICategoriasRepository, CategoriasRepository>();
 builder.Services.AddScoped<IProdutosRepository, ProdutosRepository>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
 var app = builder.Build();
 

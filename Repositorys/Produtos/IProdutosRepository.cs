@@ -1,13 +1,12 @@
-﻿namespace ApiCatalogo.Repositorys.Produtos
+﻿using ApiCatalogo.Repositorys.Generico;
+
+namespace ApiCatalogo.Repositorys.Produtos
 {
-    public interface IProdutosRepository
+    public interface IProdutosRepository : IRepository<Produto>
     {
 
-        ICollection<Produto> GetProdutos();
-        Produto GetProduto(int id);
-        Produto Create(Produto produto);   
-        Produto Update(Produto produto);   
-        Produto Delete(int id);
+        IEnumerable<Produto> GetProdutosPorCategoria(int id);
+
 
     }
 }

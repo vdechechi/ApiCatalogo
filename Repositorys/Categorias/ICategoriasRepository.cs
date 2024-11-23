@@ -1,13 +1,10 @@
 ﻿using ApiCatalogo.Models;
+using ApiCatalogo.Repositorys.Generico;
 
 namespace ApiCatalogo.Repositorys.Categorias
 {
-    public interface ICategoriasRepository
+    public interface ICategoriasRepository : IRepository<Categoria>
     {
-        IEnumerable<Categoria> GetCategorias();
-        Categoria GetCategoria(int id);
-        Categoria Create(Categoria categoria);
-        Categoria Update(Categoria categoria);
-        Categoria Delete(int id);
+        
     }
 }
