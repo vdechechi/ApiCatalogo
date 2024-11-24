@@ -16,7 +16,7 @@ namespace ApiCatalogo.Repositorys.Produtos
 
         public IEnumerable<Produto> GetProdutosPorCategoria(int id)
         {
-            return GetAll().Where(c=> c.Id == id);
+            return GetAll().Where(c => c.CategoriaId == id);
         }
     }
 }

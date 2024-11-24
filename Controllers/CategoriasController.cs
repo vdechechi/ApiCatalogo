@@ -5,6 +5,7 @@ using ApiCatalogo.Models;
 using ApiCatalogo.Repositorys.Categorias;
 using ApiCatalogo.Repositorys.Generico;
 using ApiCatalogo.Repositorys.UnitOfWork;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -16,11 +17,10 @@ namespace APICatalogo.Controllers;
 public class CategoriasController : ControllerBase
 {
     private readonly IUnitOfWork _uof;
-    private readonly ILogger<CategoriasController> _logger;
-
-    public CategoriasController(ILogger<CategoriasController> logger, IUnitOfWork uof)
+    private readonly IMapper _mapper;
+    public CategoriasController(IMapper mapper, IUnitOfWork uof)
     {
-        _logger = logger;
+        _mapper = mapper;
         _uof = uof;
     }
 
@@ -34,7 +34,7 @@ public class CategoriasController : ControllerBase
             return NotFound("Não existem categorias");
         }
 
-        var categoriasDto = categorias.toCategoriaDtoList();
+        var categoriasDto = _mapper.Map<IEnumerable<CategoriaDto>>(categorias);
 
         return Ok(categoriasDto);
     }
@@ -46,11 +46,10 @@ public class CategoriasController : ControllerBase
 
         if (categoria == null)
         {
-            _logger.LogWarning($"Categoria com id= {id} não encontrada...");
             return NotFound($"Categoria com id= {id} não encontrada...");
         }
-            
-       var categoriaDto = categoria.ToCategoriaDto();
+
+        var categoriaDto = _mapper.Map<CategoriaDto>(categoria);
 
         return Ok(categoriaDto);
     }
@@ -60,16 +59,15 @@ public class CategoriasController : ControllerBase
     {
         if (categoriaDto is null)
         {
-            _logger.LogWarning($"Dados inválidos...");
             return BadRequest("Dados inválidos");
         }
 
-        var categoria = categoriaDto.ToCategoria();
+        var categoria = _mapper.Map<Categoria>(categoriaDto);
 
-        var categoriaCriada = _uof.CategoriasRepository.Create(categoria);
+        var novaCategoria = _uof.CategoriasRepository.Create(categoria);
         _uof.Commit();
 
-        var novaCategoriaDto = categoriaCriada.ToCategoriaDto();
+        var novaCategoriaDto = _mapper.Map<CategoriaDto>(novaCategoria);
 
         return new CreatedAtRouteResult("ObterCategoria", new { id = novaCategoriaDto.Id }, novaCategoriaDto);
     }
@@ -77,19 +75,19 @@ public class CategoriasController : ControllerBase
     [HttpPut("{id:int}")]
     public ActionResult<CategoriaDto> Put(int id, CategoriaDto categoriaDto)
     {
-        if (id != categoriaDto.Id)
+        if (categoriaDto is null)
         {
-            _logger.LogWarning($"Dados inválidos...");
             return BadRequest("Dados inválidos");
         }
-        var categoria = categoriaDto.ToCategoria();
+
+        var categoria = _mapper.Map<Categoria>(categoriaDto);
 
         var categoriaAtualizada = _uof.CategoriasRepository.Update(categoria);
         _uof.Commit();
 
-        var categoriaAtualizadaDto = categoriaAtualizada.ToCategoriaDto();
+        var novaCategoriaDto = _mapper.Map<CategoriaDto>(categoriaAtualizada);
 
-        return Ok(categoriaAtualizadaDto);
+        return Ok(categoriaAtualizada);
     }
 
     [HttpDelete("{id:int}")]
@@ -99,13 +97,13 @@ public class CategoriasController : ControllerBase
         var categoria = _uof.CategoriasRepository.Get(c => c.Id == id);
         if(categoria == null)
         {
-            _logger.LogWarning("Categoria nao encontrada");
             return NotFound("Categoria não encontrada");
         }
 
         var categoriaExcluida = _uof.CategoriasRepository.Delete(categoria);
+        _uof.Commit();
 
-        var categoriaExcluidaDto = categoriaExcluida.ToCategoriaDto();
+        var categoriaExcluidaDto = _mapper.Map<CategoriaDto>(categoriaExcluida);
 
         return Ok(categoriaExcluidaDto);
     }

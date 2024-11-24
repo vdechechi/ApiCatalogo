@@ -1,4 +1,5 @@
 using ApiCatalogo.Context;
+using ApiCatalogo.DTO.Mappings;
 using ApiCatalogo.Extensions;
 using ApiCatalogo.Filters;
 using ApiCatalogo.Repositorys.Categorias;
@@ -9,7 +10,6 @@ using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
-
 
 
 builder.Services.AddControllers();
@@ -31,13 +31,15 @@ builder.Services.AddControllers(options =>
 }).AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
-});
+}).AddNewtonsoftJson();
 
 builder.Services.AddScoped<ICategoriasRepository, CategoriasRepository>();
 builder.Services.AddScoped<IProdutosRepository, ProdutosRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+
+builder.Services.AddAutoMapper(typeof(DtoMappingProfile));
 
 var app = builder.Build();
 

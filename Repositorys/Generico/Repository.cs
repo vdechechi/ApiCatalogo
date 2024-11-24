@@ -28,8 +28,6 @@ namespace ApiCatalogo.Repositorys.Generico
         {
             _context.Set<T>().Add(entity);    
 
-            //_context.SaveChanges();
-
             return entity;
         }
 
@@ -37,16 +35,12 @@ namespace ApiCatalogo.Repositorys.Generico
         {
             _context.Set<T>().Update(entity);
 
-            //_context.SaveChanges();
-
             return entity;
         }
 
         public T Delete(T entity)
         {
             _context.Set<T>().Remove(entity);
-
-            //_context.SaveChanges();
 
             return entity;
         }
