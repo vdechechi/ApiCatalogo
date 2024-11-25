@@ -7,6 +7,7 @@ using ApiCatalogo.Repositorys.UnitOfWork;
 using APICatalogo.Controllers;
 using AutoMapper;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -85,6 +86,38 @@ namespace ApiCatalogo.Controllers
                 new { id = novoProdutoDto.Id }, novoProdutoDto);
         }
 
+        [HttpPatch("{id:int}")]
+        public ActionResult<ProdutoDtoUpdateResponse> Patch(int id,
+                                               JsonPatchDocument<ProdutoDtoUpdateRequest> patchProdutoDto)
+        {
+            if (patchProdutoDto == null || id <= 0) { return BadRequest(); }
+
+            var produto = _uof.ProdutosRepository.Get(p => p.Id == id);
+
+            if (produto is null)
+            {
+                return NotFound();
+            }
+
+            var produtoUpdateRequest = _mapper.Map<ProdutoDtoUpdateRequest>(produto);
+
+            patchProdutoDto.ApplyTo(produtoUpdateRequest, ModelState);
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            _mapper.Map(produtoUpdateRequest, produto);
+
+            _uof.ProdutosRepository.Update(produto);
+            _uof.Commit();
+
+            return Ok(_mapper.Map<ProdutoDtoUpdateResponse>(produto));
+        }
+
+
+
         [HttpPut]
         [Route("{id:int}")]
         public ActionResult<ProdutoDto> Put([FromBody] ProdutoDto produtoDto, [FromRoute] int id)
@@ -104,7 +137,7 @@ namespace ApiCatalogo.Controllers
             _uof.Commit();
 
             var produtoAtualizadoDto = _mapper.Map<ProdutoDto>(produtoAtualizado);
-
+                  
             return Ok(produtoAtualizadoDto);
            
         }

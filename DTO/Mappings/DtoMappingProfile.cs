@@ -1,4 +1,5 @@
 ﻿using ApiCatalogo.Models;
+using ApiCatalogo.Repositorys.Produtos;
 using AutoMapper;
 
 namespace ApiCatalogo.DTO.Mappings
@@ -10,6 +11,8 @@ namespace ApiCatalogo.DTO.Mappings
         {
             CreateMap<Produto, ProdutoDto>().ReverseMap();
             CreateMap<Categoria, CategoriaDto>().ReverseMap();
+            CreateMap<Produto, ProdutoDtoUpdateRequest>().ReverseMap();   
+            CreateMap<Produto, ProdutoDtoUpdateResponse>().ReverseMap();
         }
     }
 }
