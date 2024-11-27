@@ -1,6 +1,7 @@
 ﻿using ApiCatalogo.Context;
 using ApiCatalogo.DTO;
 using ApiCatalogo.Models;
+using ApiCatalogo.Pagination;
 using ApiCatalogo.Repositorys.Generico;
 using ApiCatalogo.Repositorys.Produtos;
 using ApiCatalogo.Repositorys.UnitOfWork;
@@ -27,6 +28,21 @@ namespace ApiCatalogo.Controllers
             _mapper = mapper;
         }
 
+        [HttpGet("Pagination")]
+        public ActionResult<IEnumerable<ProdutoDto>> Get([FromQuery] ProdutosParameters produtosParameters)
+        {
+
+            var produtos = _uof.ProdutosRepository.GetProdutos(produtosParameters);
+
+            if (produtos == null)
+            {
+                return NotFound("Lista de produtos vazia");
+            }
+            var produtosDto = _mapper.Map<IEnumerable<ProdutoDto>>(produtos);
+
+            return Ok(produtosDto);
+
+        }
         [HttpGet]
         public ActionResult<IEnumerable<ProdutoDto>> GetProdutos()
         {

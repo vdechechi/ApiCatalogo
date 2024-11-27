@@ -1,4 +1,5 @@
-﻿using ApiCatalogo.Repositorys.Generico;
+﻿using ApiCatalogo.Pagination;
+using ApiCatalogo.Repositorys.Generico;
 
 namespace ApiCatalogo.Repositorys.Produtos
 {
@@ -6,6 +7,7 @@ namespace ApiCatalogo.Repositorys.Produtos
     {
 
         IEnumerable<Produto> GetProdutosPorCategoria(int id);
+        IEnumerable<Produto> GetProdutos(ProdutosParameters produtosParameters);
 
 
     }
