@@ -2,6 +2,7 @@
 using ApiCatalogo.DTO;
 using ApiCatalogo.DTO.Mappings;
 using ApiCatalogo.Models;
+using ApiCatalogo.Pagination;
 using ApiCatalogo.Repositorys.Categorias;
 using ApiCatalogo.Repositorys.Generico;
 using ApiCatalogo.Repositorys.UnitOfWork;
@@ -9,6 +10,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Newtonsoft.Json;
 
 namespace APICatalogo.Controllers;
 
@@ -33,6 +35,33 @@ public class CategoriasController : ControllerBase
         {
             return NotFound("Não existem categorias");
         }
+
+        var categoriasDto = _mapper.Map<IEnumerable<CategoriaDto>>(categorias);
+
+        return Ok(categoriasDto);
+    }
+
+    [HttpGet("pagitanion")]
+    public ActionResult<IEnumerable<CategoriaDto>> GetCategorias([FromQuery] CategoriasParameters categoriasParameters)
+    {
+        var categorias = _uof.CategoriasRepository.GetCategorias(categoriasParameters);
+
+        if (categorias is null)
+        {
+            return NotFound("Não existem categorias");
+        }
+
+        var metadata = new
+        {
+            categorias.TotalCount,
+            categorias.PageSize,
+            categorias.CurrentPage,
+            categorias.TotalPages,
+            categorias.HasNext,
+            categorias.HasPrevious
+        };
+
+        Response.Headers.Append("X-Pagination", JsonConvert.SerializeObject(metadata));
 
         var categoriasDto = _mapper.Map<IEnumerable<CategoriaDto>>(categorias);
 

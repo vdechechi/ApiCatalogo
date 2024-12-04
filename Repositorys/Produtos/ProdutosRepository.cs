@@ -15,12 +15,20 @@ namespace ApiCatalogo.Repositorys.Produtos
             
         }
 
-        public IEnumerable<Produto> GetProdutos(ProdutosParameters produtosParameters)
+        //public IEnumerable<Produto> GetProdutos(ProdutosParameters produtosParameters)
+        //{
+        //    return GetAll()
+        //        .OrderBy(on => on.Nome)
+        //        .Skip((produtosParameters.PageNumber - 1) * produtosParameters.PageSize)
+        //        .Take(produtosParameters.PageSize).ToList();
+        //}
+
+        public PagedList<Produto> GetProdutos(ProdutosParameters produtosParameters)
         {
-            return GetAll()
-                .OrderBy(on => on.Nome)
-                .Skip((produtosParameters.PageNumber - 1) * produtosParameters.PageSize)
-                .Take(produtosParameters.PageSize).ToList();
+            var produtos = GetAll().OrderBy(p=> p.Id).AsQueryable();
+            var produtosOrdenados = PagedList<Produto>.toPagedList(produtos, produtosParameters.PageNumber, produtosParameters.PageSize);
+
+            return produtosOrdenados;
         }
 
         public IEnumerable<Produto> GetProdutosPorCategoria(int id)

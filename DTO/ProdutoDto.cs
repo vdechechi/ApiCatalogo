@@ -6,7 +6,6 @@ namespace ApiCatalogo.DTO
 {
     public class ProdutoDto
     {
-
         public int Id { get; set; } 
 
         [Required(ErrorMessage = "O nome é obrigatório")]

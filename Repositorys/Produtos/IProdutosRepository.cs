@@ -7,7 +7,9 @@ namespace ApiCatalogo.Repositorys.Produtos
     {
 
         IEnumerable<Produto> GetProdutosPorCategoria(int id);
-        IEnumerable<Produto> GetProdutos(ProdutosParameters produtosParameters);
+
+        //IEnumerable<Produto> GetProdutos(ProdutosParameters produtosParameters);
+        PagedList<Produto> GetProdutos(ProdutosParameters produtosParameters);
 
 
     }

@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace ApiCatalogo.Controllers
 {
@@ -34,10 +35,18 @@ namespace ApiCatalogo.Controllers
 
             var produtos = _uof.ProdutosRepository.GetProdutos(produtosParameters);
 
-            if (produtos == null)
+            var metadata = new
             {
-                return NotFound("Lista de produtos vazia");
-            }
+                produtos.TotalCount,
+                produtos.PageSize,
+                produtos.CurrentPage,
+                produtos.TotalPages,
+                produtos.HasNext,
+                produtos.HasPrevious
+            };
+
+            Response.Headers.Append("X-Pagination", JsonConvert.SerializeObject(metadata)); 
+
             var produtosDto = _mapper.Map<IEnumerable<ProdutoDto>>(produtos);
 
             return Ok(produtosDto);
