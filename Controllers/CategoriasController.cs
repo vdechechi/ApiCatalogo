@@ -6,6 +6,7 @@ using ApiCatalogo.Pagination;
 using ApiCatalogo.Repositorys.Categorias;
 using ApiCatalogo.Repositorys.Generico;
 using ApiCatalogo.Repositorys.UnitOfWork;
+using APICatalogo.DTOs.Mappings;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -51,21 +52,7 @@ public class CategoriasController : ControllerBase
             return NotFound("Não existem categorias");
         }
 
-        var metadata = new
-        {
-            categorias.TotalCount,
-            categorias.PageSize,
-            categorias.CurrentPage,
-            categorias.TotalPages,
-            categorias.HasNext,
-            categorias.HasPrevious
-        };
-
-        Response.Headers.Append("X-Pagination", JsonConvert.SerializeObject(metadata));
-
-        var categoriasDto = _mapper.Map<IEnumerable<CategoriaDto>>(categorias);
-
-        return Ok(categoriasDto);
+        return ObterCategorias(categorias);
     }
 
     [HttpGet("{id:int}", Name = "ObterCategoria")]
@@ -135,5 +122,33 @@ public class CategoriasController : ControllerBase
         var categoriaExcluidaDto = _mapper.Map<CategoriaDto>(categoriaExcluida);
 
         return Ok(categoriaExcluidaDto);
+    }
+
+    [HttpGet("filter/nome/pagination")]
+
+    public ActionResult<IEnumerable<CategoriaDto>> GetCategoriasFiltradas( [FromQuery] CategoriasFiltroNome categoriasFiltro)
+    {
+        var categoriasFiltradas = _uof.CategoriasRepository
+                                     .GetCategoriasFiltroNome(categoriasFiltro);
+
+        return ObterCategorias(categoriasFiltradas);
+
+    }
+
+    private ActionResult<IEnumerable<CategoriaDto>> ObterCategorias(PagedList<Categoria> categorias)
+    {
+        var metadata = new
+        {
+            categorias.TotalCount,
+            categorias.PageSize,
+            categorias.CurrentPage,
+            categorias.TotalPages,
+            categorias.HasNext,
+            categorias.HasPrevious
+        };
+
+        Response.Headers.Append("X-Pagination", JsonConvert.SerializeObject(metadata));
+        var categoriasDto = categorias.ToCategoriaDTOList();
+        return Ok(categoriasDto);
     }
 }

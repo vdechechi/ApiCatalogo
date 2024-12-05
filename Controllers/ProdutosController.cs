@@ -183,9 +183,33 @@ namespace ApiCatalogo.Controllers
             var produtoDeletadoDto = _mapper.Map<ProdutoDto>(produtoDeletado);
 
             return Ok(produtoDeletadoDto);
+        }
 
+        [HttpGet("filter/preco/pagination")]
+
+        public ActionResult<IEnumerable<ProdutoDto>> GetProdutoFilterPreco ([FromQuery] ProdutosFiltroPreco produtosFiltroPrecoParameters)
+        {
+            var produtos = _uof.ProdutosRepository.GetProdutosFiltroPreco(produtosFiltroPrecoParameters);
+
+            var metadata = new
+            {
+                produtos.TotalCount,
+                produtos.PageSize,
+                produtos.CurrentPage,
+                produtos.TotalPages,
+                produtos.HasNext,
+                produtos.HasPrevious
+            };
+
+            Response.Headers.Append("X-Pagination", JsonConvert.SerializeObject(metadata));
+
+            var produtosDto = _mapper.Map<IEnumerable<ProdutoDto>>(produtos);
+
+            return Ok(produtosDto);
 
         }
+
+
 
 
 

@@ -31,6 +31,30 @@ namespace ApiCatalogo.Repositorys.Produtos
             return produtosOrdenados;
         }
 
+        public PagedList<Produto> GetProdutosFiltroPreco(ProdutosFiltroPreco produtosFiltroPrecoParams)
+        {
+            var produtos = GetAll().AsQueryable();
+
+            if(produtosFiltroPrecoParams.Preco.HasValue && !string.IsNullOrEmpty(produtosFiltroPrecoParams.PrecoCriterio))
+            {
+                if(produtosFiltroPrecoParams.PrecoCriterio.Equals("maior", StringComparison.OrdinalIgnoreCase))
+                {
+                    produtos = produtos.Where(p => p.Preco > produtosFiltroPrecoParams.Preco.Value).OrderBy(p => p.Id);
+                }
+                else if (produtosFiltroPrecoParams.PrecoCriterio.Equals("menor", StringComparison.OrdinalIgnoreCase))
+                {
+                    produtos = produtos.Where(p => p.Preco < produtosFiltroPrecoParams.Preco.Value).OrderBy(p => p.Id);
+                }
+                else if (produtosFiltroPrecoParams.PrecoCriterio.Equals("igual", StringComparison.OrdinalIgnoreCase))
+                {
+                    produtos = produtos.Where(p => p.Preco == produtosFiltroPrecoParams.Preco.Value).OrderBy(p => p.Id);
+                }
+            }
+            var produtosFiltrados = PagedList<Produto>.toPagedList(produtos, produtosFiltroPrecoParams.PageNumber, produtosFiltroPrecoParams.PageSize);
+
+            return produtosFiltrados;
+        }
+
         public IEnumerable<Produto> GetProdutosPorCategoria(int id)
         {
             return GetAll().Where(c => c.CategoriaId == id);
