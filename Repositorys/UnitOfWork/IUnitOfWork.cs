@@ -7,6 +7,6 @@ namespace ApiCatalogo.Repositorys.UnitOfWork
     {
         IProdutosRepository ProdutosRepository { get; }
         ICategoriasRepository CategoriasRepository { get; }
-        void Commit(); //Confirmar todas as alterações pendentes
+        Task CommitAsync(); //Confirmar todas as alterações pendentes
     }
 }

@@ -114,3 +114,6 @@ D:\Documentos\Projetos\Macoratti\ApiCatalogo\ApiCatalogo\bin\Debug\net8.0\Micros
 D:\Documentos\Projetos\Macoratti\ApiCatalogo\ApiCatalogo\bin\Debug\net8.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 D:\Documentos\Projetos\Macoratti\ApiCatalogo\ApiCatalogo\bin\Debug\net8.0\Newtonsoft.Json.dll
 D:\Documentos\Projetos\Macoratti\ApiCatalogo\ApiCatalogo\bin\Debug\net8.0\Newtonsoft.Json.Bson.dll
+D:\Documentos\Projetos\Macoratti\ApiCatalogo\ApiCatalogo\bin\Debug\net8.0\JetBrains.Annotations.dll
+D:\Documentos\Projetos\Macoratti\ApiCatalogo\ApiCatalogo\bin\Debug\net8.0\X.PagedList.dll
+D:\Documentos\Projetos\Macoratti\ApiCatalogo\ApiCatalogo\bin\Debug\net8.0\X.PagedList.Mvc.Core.dll
