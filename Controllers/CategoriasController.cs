@@ -8,6 +8,7 @@ using ApiCatalogo.Repositorys.Generico;
 using ApiCatalogo.Repositorys.UnitOfWork;
 using APICatalogo.DTOs.Mappings;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -28,6 +29,7 @@ public class CategoriasController : ControllerBase
         _uof = uof;
     }
 
+    [Authorize]
     [HttpGet]
     public async Task<ActionResult<IEnumerable<CategoriaDto>>> Get()
     {

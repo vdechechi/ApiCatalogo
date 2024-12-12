@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Documentos\\Projetos\\Macoratti\\ApiCatalogo\\ApiCatalogo\\ApiCatalogo.csproj": {}
+    "D:\\Documentos\\Projetos\\Macoratti\\ApiCatalogo\\ApiCatalogo.csproj": {}
   },
   "projects": {
-    "D:\\Documentos\\Projetos\\Macoratti\\ApiCatalogo\\ApiCatalogo\\ApiCatalogo.csproj": {
+    "D:\\Documentos\\Projetos\\Macoratti\\ApiCatalogo\\ApiCatalogo.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Documentos\\Projetos\\Macoratti\\ApiCatalogo\\ApiCatalogo\\ApiCatalogo.csproj",
+        "projectUniqueName": "D:\\Documentos\\Projetos\\Macoratti\\ApiCatalogo\\ApiCatalogo.csproj",
         "projectName": "ApiCatalogo",
-        "projectPath": "D:\\Documentos\\Projetos\\Macoratti\\ApiCatalogo\\ApiCatalogo\\ApiCatalogo.csproj",
+        "projectPath": "D:\\Documentos\\Projetos\\Macoratti\\ApiCatalogo\\ApiCatalogo.csproj",
         "packagesPath": "C:\\Users\\Vinicius\\.nuget\\packages\\",
-        "outputPath": "D:\\Documentos\\Projetos\\Macoratti\\ApiCatalogo\\ApiCatalogo\\obj\\",
+        "outputPath": "D:\\Documentos\\Projetos\\Macoratti\\ApiCatalogo\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Vinicius\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -49,6 +49,10 @@
             "AutoMapper": {
               "target": "Package",
               "version": "[13.0.1, )"
+            },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[8.0.1, )"
             },
             "Microsoft.AspNetCore.JsonPatch": {
               "target": "Package",

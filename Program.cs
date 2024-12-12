@@ -8,6 +8,7 @@ using ApiCatalogo.Repositorys.Produtos;
 using ApiCatalogo.Repositorys.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,8 @@ builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddAuthorization();
+builder.Services.AddAuthentication("Bearer").AddJwtBearer();
 
 
 string? mySqlConnection = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -53,7 +56,6 @@ if (app.Environment.IsDevelopment())
 app.ConfigureExceptionHandler();
 
 app.UseHttpsRedirection();
-app.UseAuthentication();   
 app.UseAuthorization();
 app.MapControllers();
 
