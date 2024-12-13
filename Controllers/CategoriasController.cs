@@ -17,6 +17,7 @@ using X.PagedList;
 
 namespace APICatalogo.Controllers;
 
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 public class CategoriasController : ControllerBase
@@ -29,7 +30,6 @@ public class CategoriasController : ControllerBase
         _uof = uof;
     }
 
-    [Authorize]
     [HttpGet]
     public async Task<ActionResult<IEnumerable<CategoriaDto>>> Get()
     {
