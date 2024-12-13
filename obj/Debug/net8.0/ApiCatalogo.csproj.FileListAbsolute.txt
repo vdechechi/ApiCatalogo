@@ -363,3 +363,4 @@ D:\Documentos\Projetos\Macoratti\ApiCatalogo\bin\Debug\net8.0\Microsoft.Identity
 D:\Documentos\Projetos\Macoratti\ApiCatalogo\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 D:\Documentos\Projetos\Macoratti\ApiCatalogo\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
 D:\Documentos\Projetos\Macoratti\ApiCatalogo\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
+D:\Documentos\Projetos\Macoratti\ApiCatalogo\bin\Debug\net8.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
