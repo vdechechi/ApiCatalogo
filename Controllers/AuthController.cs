@@ -75,6 +75,7 @@ namespace ApiCatalogo.Controllers
             {
                 new Claim(ClaimTypes.Name, user.UserName!),
                 new Claim(ClaimTypes.Email, user.Email!),
+                new Claim("id", user.UserName!),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             };
 
@@ -138,6 +139,7 @@ namespace ApiCatalogo.Controllers
             return Ok(new Response { Status = "Success", Message = "User created successfully!" });
         }
 
+        [Authorize(Policy = "AdminOnly")]
         [HttpPost]
         [Route("refresh-token")]
         public async Task<IActionResult> RefreshToken(TokenModel tokenModel)
@@ -202,7 +204,9 @@ namespace ApiCatalogo.Controllers
             return NoContent();
         }
 
-        [HttpPost("create-role")]  
+        [HttpPost("create-role")]
+
+        [Authorize(Policy = "AdminOnly")]
 
         public async Task<IActionResult> CreateRole (string roleName)
         {
@@ -227,6 +231,7 @@ namespace ApiCatalogo.Controllers
         }
 
         [HttpPost("add-user-to-role")]
+        [Authorize(Policy = "AdminOnly")]
 
         public async Task<IActionResult> AddUserToRole (string email, string roleName)
         {

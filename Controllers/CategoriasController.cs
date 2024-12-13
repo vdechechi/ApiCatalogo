@@ -17,7 +17,7 @@ using X.PagedList;
 
 namespace APICatalogo.Controllers;
 
-[Authorize]
+[Authorize(Policy = "UserOnly")]
 [Route("api/[controller]")]
 [ApiController]
 public class CategoriasController : ControllerBase
@@ -109,6 +109,7 @@ public class CategoriasController : ControllerBase
         return Ok(categoriaAtualizada);
     }
 
+    [Authorize(Policy = "AdminOnly")]
     [HttpDelete("{id:int}")]
     public async Task<ActionResult<CategoriaDto>> Delete(int id)
     {

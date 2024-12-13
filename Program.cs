@@ -55,10 +55,7 @@ builder.Services.AddSwaggerGen(option =>
 });
 
 
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
-});
+
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>()
@@ -89,6 +86,13 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
+
+    options.AddPolicy("UserOnly", policy => policy.RequireRole("User"));
+
+});
 
 string? mySqlConnection = builder.Configuration.GetConnectionString("DefaultConnection");
 
