@@ -17,6 +17,8 @@ using ApiCatalogo.Models;
 using ApiCatalogo.Services;
 using APICatalogo.Services;
 using Microsoft.OpenApi.Models;
+using APICatalogo.Logging;
+using APICatalogo.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -53,7 +55,10 @@ builder.Services.AddSwaggerGen(option =>
 });
 
 
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
+});
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>()
@@ -108,6 +113,7 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
 builder.Services.AddAutoMapper(typeof(DtoMappingProfile));
+
 
 var app = builder.Build();
 

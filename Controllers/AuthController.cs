@@ -4,6 +4,7 @@ using ApiCatalogo.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
@@ -18,13 +19,47 @@ namespace ApiCatalogo.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _configuration;
 
-        public AuthController(ITokenService tokenService, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration)
+        public AuthController(ITokenService tokenService, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration, ILogger<AuthController> logger)
         {
             _tokenService = tokenService;
             _userManager = userManager;
             _roleManager = roleManager;
             _configuration = configuration;
         }
+
+
+        [Authorize(Policy = "AdminOnly")]
+        [HttpGet("GetAllUsers")]
+        public async Task<IActionResult> GetUsers()
+        {
+            var users = await _userManager.Users.ToListAsync();
+
+            var usersWithRoles = new List<object>();
+
+            foreach (var user in users)
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+                usersWithRoles.Add(new
+                {
+                    user.Id,
+                    user.UserName,
+                    user.Email,
+                    Roles = roles
+                });
+            }
+            return Ok(usersWithRoles);
+        }
+
+        [Authorize(Policy = "AdminOnly")]
+        [HttpGet("GetAllRoles")]
+        public async Task<IActionResult> GetRoles()
+        {
+            var roles = await _roleManager.Roles.ToListAsync();
+
+            return Ok(roles);
+        }
+
+
 
         [HttpPost]
         [Route("login")]
@@ -166,5 +201,56 @@ namespace ApiCatalogo.Controllers
 
             return NoContent();
         }
+
+        [HttpPost("create-role")]  
+
+        public async Task<IActionResult> CreateRole (string roleName)
+        {
+            var roleExist = await _roleManager.FindByNameAsync(roleName);
+
+            if(roleExist != null)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, new Response { Status = "Error", Message = "Role already exists" });
+            }
+            var roleResult = await _roleManager.CreateAsync(new IdentityRole(roleName));
+
+            if (roleResult.Succeeded)
+            {
+                return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = $"Role {roleName} created Successfully" });
+            }
+            else
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, new Response { Status = "Error", Message = $"Issue adding the new {roleName} role" });
+            }
+
+
+        }
+
+        [HttpPost("add-user-to-role")]
+
+        public async Task<IActionResult> AddUserToRole (string email, string roleName)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+
+            if(user != null)
+            {
+                var result = await _userManager.AddToRoleAsync(user, roleName);
+
+                if(result.Succeeded)
+                {
+                    return StatusCode(StatusCodes.Status200OK,
+                        new Response { Status = "Success", Message = $"User {email} added to the {roleName} role" });
+
+                }
+
+                return StatusCode(StatusCodes.Status400BadRequest,
+                        new Response { Status = "Error", Message = $"Unable to add the user {email} added to the {roleName} role" });
+
+            }
+
+            return BadRequest(new Response { Status = "Error", Message = "Unable to find user" });
+        }
+
+
     }
 }
