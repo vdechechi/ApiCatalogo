@@ -9,16 +9,17 @@ using ApiCatalogo.Repositorys.UnitOfWork;
 using APICatalogo.DTOs.Mappings;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Newtonsoft.Json;
 using X.PagedList;
 
-namespace APICatalogo.Controllers;
 
-[Authorize(Policy = "UserOnly")]
+namespace APICatalogo.Controllers;
 [Route("api/[controller]")]
+[EnableCors]
 [ApiController]
 public class CategoriasController : ControllerBase
 {
@@ -109,7 +110,6 @@ public class CategoriasController : ControllerBase
         return Ok(categoriaAtualizada);
     }
 
-    [Authorize(Policy = "AdminOnly")]
     [HttpDelete("{id:int}")]
     public async Task<ActionResult<CategoriaDto>> Delete(int id)
     {
