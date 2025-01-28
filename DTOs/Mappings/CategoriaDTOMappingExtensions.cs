@@ -11,7 +11,7 @@ public static class CategoriaDTOMappingExtensions
 
         return new CategoriaDTO
         {
-            CategoriaId = categoria.CategoriaId,
+            Id = categoria.Id,
             Nome = categoria.Nome,
             ImagemUrl = categoria.ImagemUrl
         };
@@ -23,7 +23,7 @@ public static class CategoriaDTOMappingExtensions
 
         return new Categoria
         {
-            CategoriaId = categoriaDto.CategoriaId,
+            Id = categoriaDto.Id,
             Nome = categoriaDto.Nome,
             ImagemUrl = categoriaDto.ImagemUrl
         };
@@ -38,7 +38,7 @@ public static class CategoriaDTOMappingExtensions
 
         return categorias.Select(categoria => new CategoriaDTO
         {
-            CategoriaId = categoria.CategoriaId,
+            Id = categoria.Id,
             Nome = categoria.Nome,
             ImagemUrl = categoria.ImagemUrl
         }).ToList();

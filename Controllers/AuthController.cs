@@ -4,6 +4,7 @@ using APICatalogo.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
@@ -238,7 +239,7 @@ public class AuthController : ControllerBase
         });
     }
 
-    [Authorize(Policy ="ExclusiveOnly")]
+    [Authorize(Policy = "AdminOnly")]
     [HttpPost]
     [Route("revoke/{username}")]
     public async Task<IActionResult> Revoke(string username)
@@ -252,5 +253,27 @@ public class AuthController : ControllerBase
         await _userManager.UpdateAsync(user);
 
         return NoContent();
+    }
+
+    [HttpGet("GetAllUsers")]
+    [Authorize(Policy = "AdminOnly")]
+    public async Task<IActionResult> GetUsers()
+    {
+        var users = await _userManager.Users.ToListAsync();
+        var usersWithRoles = new List<object>();
+
+        foreach (var user in users)
+        {
+            var roles = await _userManager.GetRolesAsync(user);
+            usersWithRoles.Add(new
+            {
+                user.Id,
+                user.UserName,
+                user.Email,
+                Roles = roles
+            });
+        }
+
+        return Ok(usersWithRoles);
     }
 }

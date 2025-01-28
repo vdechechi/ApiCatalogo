@@ -16,7 +16,7 @@ public class CategoriaRepository : Repository<Categoria>, ICategoriaRepository
         var categorias = await GetAllAsync();
 
         // OrderBy síncrono
-        var categoriasOrdenadas = categorias.OrderBy(p => p.CategoriaId).ToList();
+        var categoriasOrdenadas = categorias.OrderBy(p => p.Id).ToList();
 
         //var resultado =  PagedList<Categoria>.ToPagedList(categoriasOrdenadas,
         //                         categoriasParams.PageNumber, categoriasParams.PageSize);

@@ -99,7 +99,7 @@ public class CategoriasController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<CategoriaDTO>> Get(int id)
     {
-        var categoria = await _uof.CategoriaRepository.GetAsync(c => c.CategoriaId == id);
+        var categoria = await _uof.CategoriaRepository.GetAsync(c => c.Id == id);
 
         if (categoria is null)
         {
@@ -147,7 +147,7 @@ public class CategoriasController : ControllerBase
         var novaCategoriaDto = categoriaCriada.ToCategoriaDTO();
 
         return new CreatedAtRouteResult("ObterCategoria",
-            new { id = novaCategoriaDto.CategoriaId },
+            new { id = novaCategoriaDto.Id },
             novaCategoriaDto);
     }
 
@@ -157,7 +157,7 @@ public class CategoriasController : ControllerBase
     [ProducesDefaultResponseType]
     public async Task<ActionResult<CategoriaDTO>> Put(int id, CategoriaDTO categoriaDto)
     {
-        if (id != categoriaDto.CategoriaId)
+        if (id != categoriaDto.Id)
         {
             _logger.LogWarning($"Dados inválidos...");
             return BadRequest("Dados inválidos");
@@ -180,7 +180,7 @@ public class CategoriasController : ControllerBase
     [ProducesDefaultResponseType]
     public async Task<ActionResult<CategoriaDTO>> Delete(int id)
     {
-        var categoria = await _uof.CategoriaRepository.GetAsync(c => c.CategoriaId == id);
+        var categoria = await _uof.CategoriaRepository.GetAsync(c => c.Id == id);
 
         if (categoria is null)
         {

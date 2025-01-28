@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Vinicius\\Downloads\\9_Projeto_ConvAnalizadores\\APICatalogo\\APICatalogo.csproj": {}
+    "D:\\Documentos\\Projeto\\APICatalogo\\APICatalogo.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Vinicius\\Downloads\\9_Projeto_ConvAnalizadores\\APICatalogo\\APICatalogo.csproj": {
+    "D:\\Documentos\\Projeto\\APICatalogo\\APICatalogo.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Vinicius\\Downloads\\9_Projeto_ConvAnalizadores\\APICatalogo\\APICatalogo.csproj",
+        "projectUniqueName": "D:\\Documentos\\Projeto\\APICatalogo\\APICatalogo.csproj",
         "projectName": "APICatalogo",
-        "projectPath": "C:\\Users\\Vinicius\\Downloads\\9_Projeto_ConvAnalizadores\\APICatalogo\\APICatalogo.csproj",
+        "projectPath": "D:\\Documentos\\Projeto\\APICatalogo\\APICatalogo.csproj",
         "packagesPath": "C:\\Users\\Vinicius\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Vinicius\\Downloads\\9_Projeto_ConvAnalizadores\\APICatalogo\\obj\\",
+        "outputPath": "D:\\Documentos\\Projeto\\APICatalogo\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Vinicius\\AppData\\Roaming\\NuGet\\NuGet.Config",

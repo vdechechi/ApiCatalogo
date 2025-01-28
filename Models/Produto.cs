@@ -8,7 +8,7 @@ namespace APICatalogo.Models;
 public class Produto
 {
     [Key]
-    public int ProdutoId { get; set; }
+    public int Id { get; set; }
 
     [Required]
     [StringLength(80)]

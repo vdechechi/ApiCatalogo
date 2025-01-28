@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "A24XuNxPhjY=",
+  "dgSpecHash": "ULtixe7Q3VU=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Vinicius\\Downloads\\9_Projeto_ConvAnalizadores\\APICatalogo\\APICatalogo.csproj",
+  "projectFilePath": "D:\\Documentos\\Projeto\\APICatalogo\\APICatalogo.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Vinicius\\.nuget\\packages\\asp.versioning.abstractions\\8.0.0\\asp.versioning.abstractions.8.0.0.nupkg.sha512",
     "C:\\Users\\Vinicius\\.nuget\\packages\\asp.versioning.http\\8.0.0\\asp.versioning.http.8.0.0.nupkg.sha512",

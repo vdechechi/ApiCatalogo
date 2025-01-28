@@ -13,7 +13,7 @@ public class Categoria
         Produtos = new Collection<Produto>();
     }
     [Key]
-    public int CategoriaId { get; set; }
+    public int Id { get; set; }
 
     [Required]
     [StringLength(80)]

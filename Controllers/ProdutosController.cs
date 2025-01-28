@@ -98,7 +98,7 @@ public class ProdutosController : ControllerBase
     [HttpGet("{id}", Name = "ObterProduto")]
     public async Task<ActionResult<ProdutoDTO>> Get(int id)
     {
-        var produto = await _uof.ProdutoRepository.GetAsync(c => c.ProdutoId == id);
+        var produto = await _uof.ProdutoRepository.GetAsync(c => c.Id == id);
         if (produto is null)
         {
             return NotFound("Produto não encontrado...");
@@ -121,7 +121,7 @@ public class ProdutosController : ControllerBase
         var novoProdutoDto = _mapper.Map<ProdutoDTO>(novoProduto);
 
         return new CreatedAtRouteResult("ObterProduto",
-            new { id = novoProdutoDto.ProdutoId }, novoProdutoDto);
+            new { id = novoProdutoDto.Id }, novoProdutoDto);
     }
 
     [HttpPatch("{id}/UpdatePartial")]
@@ -131,7 +131,7 @@ public class ProdutosController : ControllerBase
         if (patchProdutoDto == null || id <= 0)
             return BadRequest();
 
-        var produto = await _uof.ProdutoRepository.GetAsync(c => c.ProdutoId == id);
+        var produto = await _uof.ProdutoRepository.GetAsync(c => c.Id == id);
 
         if (produto == null)
             return NotFound();
@@ -154,7 +154,7 @@ public class ProdutosController : ControllerBase
     [HttpPut("{id:int}")]
     public async Task<ActionResult<ProdutoDTO>> Put(int id, ProdutoDTO produtoDto)
     {
-        if (id != produtoDto.ProdutoId)
+        if (id != produtoDto.Id)
             return BadRequest();//400
 
         var produto = _mapper.Map<Produto>(produtoDto);
@@ -170,7 +170,7 @@ public class ProdutosController : ControllerBase
     [HttpDelete("{id:int}")]
     public async Task<ActionResult<ProdutoDTO>> Delete(int id)
     {
-        var produto = await _uof.ProdutoRepository.GetAsync(p => p.ProdutoId == id);
+        var produto = await _uof.ProdutoRepository.GetAsync(p => p.Id == id);
         if (produto is null)
         {
             return NotFound("Produto não encontrado...");

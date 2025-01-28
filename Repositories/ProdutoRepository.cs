@@ -14,7 +14,7 @@ public class ProdutoRepository : Repository<Produto>, IProdutoRepository
     {
         var produtos = await GetAllAsync();
 
-        var produtosOrdenados = produtos.OrderBy(p => p.ProdutoId).AsQueryable();
+        var produtosOrdenados = produtos.OrderBy(p => p.Id).AsQueryable();
 
         var resultado = await produtosOrdenados.ToPagedListAsync(produtosParams.PageNumber, 
                                                            produtosParams.PageSize);        

@@ -7,7 +7,7 @@ namespace APICatalogo.DTOs;
 
 public class ProdutoDTO
 {
-    public int ProdutoId { get; set; }
+    public int Id { get; set; }
 
     [Required]
     [StringLength(80)]
